@@ -20,6 +20,7 @@ namespace Chat.Controllers
             _logger = logger;
         }
 
+        [Route("about")]
         public async Task<ActionResult> About()
         {
             //Simulate test user data and login timestamp
