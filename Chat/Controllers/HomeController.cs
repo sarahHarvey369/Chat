@@ -20,45 +20,50 @@ namespace Chat.Controllers
             _logger = logger;
         }
 
-        [Route("about")]
-        public async Task<ActionResult> About()
+        public async Task<ActionResult> Index()
         {
             //Simulate test user data and login timestamp
-            var userId = "12345";
-            var currentLoginTime = DateTime.UtcNow.ToString("MM/dd/yyyy HH:mm:ss");
+            var message = "say it!";
+            //var currentLoginTime = DateTime.UtcNow.ToString("MM/dd/yyyy HH:mm:ss");
 
             //Save non identifying data to Firebase
-            var currentUserLogin = new LoginData() { TimestampUtc = currentLoginTime };
+            var currentMessage = new LoginData() { Message = message };
             var firebaseClient = new FirebaseClient("https://brightideaschat.firebaseio.com/");
             var result = await firebaseClient
-              .Child("Users/" + userId + "/Logins")
-              .PostAsync(currentUserLogin);
+              .Child("Messages/")
+              .PostAsync(currentMessage);
 
             //Retrieve data from Firebase
             var dbLogins = await firebaseClient
-              .Child("Users")
-              .Child(userId)
-              .Child("Logins")
+              .Child("Messages")
+              //.Child(message)
               .OnceAsync<LoginData>();
 
-            var timestampList = new List<DateTime>();
+            //var messageList = new List<String>();
 
-            //Convert JSON data to original datatype
-            foreach (var login in dbLogins)
-            {
-                timestampList.Add(Convert.ToDateTime(login.Object.TimestampUtc).ToLocalTime());
-            }
+            ////Convert JSON data to original datatype
+            //foreach (var login in dbLogins)
+            //{
+            //    messageList.Add(login.Object.Message);
+            //}
 
-            //Pass data to the view
-            ViewBag.CurrentUser = userId;
-            ViewBag.Logins = timestampList.OrderByDescending(x => x);
+            ////Pass data to the view
+            //ViewBag.CurrentMessage = message;
+            //ViewBag.Messages = messageList.OrderByDescending(x => x);
             return View();
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
+        //public IActionResult ChatSubmit()
+        //{
+
+        //}
+
+
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {

@@ -2,11 +2,11 @@
     ViewData["Title"] = "About";
 }
 
-<h3>Login History</h3>
-<p>Current user: @ViewBag.CurrentUser</p>
+<h3>Message History</h3>
+<p>Current message: @ViewBag.CurrentMessage</p>
 <ul>
-    @foreach(var timestamp in ViewBag.Logins)
+    @foreach(var message in ViewBag.Message)
     {
-        <li>Login at @timestamp</li>
+        <li>Messages: @message</li>
     }
 </ul>
