@@ -3,7 +3,7 @@ namespace Chat.Models
 {
     public class LoginData
     {
-        public string TimestampUtc { get; set; }
+        public string Message { get; set; }
         
     }
 }
