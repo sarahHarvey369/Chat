@@ -13,6 +13,7 @@ namespace Chat.Controllers
 {
     public class HomeController : Controller
     {
+        // This is a comment to test jenkins
         private readonly ILogger<HomeController> _logger;
         private FirebaseClient firebaseClient;
 
@@ -21,6 +22,7 @@ namespace Chat.Controllers
             _logger = logger;
             firebaseClient = new FirebaseClient("https://brightideaschat.firebaseio.com/");
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Send()
