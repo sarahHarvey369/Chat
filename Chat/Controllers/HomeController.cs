@@ -23,52 +23,35 @@ namespace Chat.Controllers
             firebaseClient = new FirebaseClient("https://brightideaschat.firebaseio.com/");
         }
 
-        public async Task<ActionResult> About()
+
+        [HttpPost]
+        public async Task<IActionResult> Send()
         {
-            //Simulate test user data and login timestamp
-            var userId = "12345";
-            //var currentLoginTime = DateTime.UtcNow.ToString("MM/dd/yyyy HH:mm:ss");
-
-            //Save non identifying data to Firebase
-            var currentUserLogin = new MessageData("Joe Test");
-            var result = await firebaseClient
-              .Child("Messages")
-              .PostAsync(currentUserLogin);
-
-            //Retrieve data from Firebase
-            var dbLogins = await firebaseClient
-              .Child("Messages")
-              .OnceAsync<MessageData>();
-
-            List<string> timestampList = new List<string>();
-
-            //Convert JSON data to original datatype
-            foreach (var login in dbLogins)
-            {
-                timestampList.Add(login.Object.Message);
-            }
-
-            //Pass data to the view
-            ViewBag.CurrentUser = userId;
-            ViewBag.Logins = timestampList.OrderByDescending(x => x);
-            return View();
-        }
-        public async Task<IActionResult> send()
-        {
+            //Send data to Firebase
             IFormCollection form = await Request.ReadFormAsync();
             string message = form["message"];
-            // now we have the message from the form!
-            FirebaseObject<MessageData> result = await firebaseClient.Child("Messages").PostAsync(new MessageData(message));
+            if (!message.Equals(""))
+            {
+                FirebaseObject<MessageData> result = await firebaseClient.Child("Messages").PostAsync(new MessageData(message));
+            }
+            var index = await Index();
             return View("~/Views/Home/Index.cshtml");
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public async Task<IActionResult> Index()
+        {   
+            //Retrieve data from Firebase
+            var database = await firebaseClient
+              .Child("Messages")
+              .OnceAsync<MessageData>();
 
-        public IActionResult Privacy()
-        {
+            var messageList = new List<string>();
+            foreach (var mess in database)
+            {
+                messageList.Add(mess.Object.Message);
+            }
+            ViewBag.Message = messageList;
+
             return View();
         }
 
