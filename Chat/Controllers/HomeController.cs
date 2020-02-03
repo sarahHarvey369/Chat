@@ -13,6 +13,7 @@ namespace Chat.Controllers
 {
     public class HomeController : Controller
     {
+        // This is a comment to test jenkins
         private readonly ILogger<HomeController> _logger;
         private FirebaseClient firebaseClient;
 
