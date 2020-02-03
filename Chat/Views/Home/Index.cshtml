@@ -2,16 +2,19 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="text-center">
+<div class="text-center">
+    <h1 class="display-4">Welcome to our chat room!</h1>
 
-        <h1 class="display-4">Welcome to our chat room!</h1>
-
-        <div class="container-fluid">
-            "Hey, I am testing the container-fluid class to see how it behaves when a long string of text is given to it. Will it wrap? Will it scroll? The world may never know... But I will know after testing it!!!"
-        </div>
-
-        <form>
-            Say something: <input type="text" name="message" value="">
-            <button id="sayIt" type="submit" onclick="">Say It!</button>
-        </form>
+    <div class="container-fluid" id="messageboard" style="border-color:dimgrey; border-width:2px; background-color:ghostwhite; border:solid;">
+        <table id="messages">
+            <tr>
+                "Hey, I am testing the container-fluid class to see how it behaves when a long string of text is given to it. Will it wrap? Will it scroll? The world may never know... But I will know after testing it!!!"
+            </tr>
+        </table>
     </div>
+
+    <form method="post" action="/home/send">
+        Say something: <textarea type="text" name="message" value="" style="width:500px; height:100px"></textarea>
+        <button type="submit" id="sayIt">Say it!!!</button>
+    </form>
+</div>
