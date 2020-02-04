@@ -3,27 +3,29 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    p:nth-child(odd) { background-color:lightgrey; }
+</style>
+
 <div class="text-center">
     <h1 class="display-4">Welcome to our chat room!</h1>
 
-    <div class="container-fluid" id="messageboard" style="border-color:dimgrey; border-width:2px; background-color:ghostwhite; border:solid;">
-        <table id="messages">
-            <tr>
-                "Hey, I am testing the container-fluid class to see how it behaves when a long string of text is given to it. Will it wrap? Will it scroll? The world may never know... But I will know after testing it!!!"
-            </tr>
-        </table>
-    </div>
     <form method="post" action="Index">
-        <ul>
+        <div id="messages" style="height:500px; overflow-y:scroll; display:block;">
             @foreach (var message in ViewBag.Message)
             {
-                <li>@message</li>
+                <p style="word-wrap: break-word;border-width:1px;border-style:solid;margin-bottom:0px;margin-top:0px">@message</p>
             }
-        </ul>
+        </div>
     </form>
+
     <form method="post" action="/home/send">
         Say something: <textarea type="text" name="message" value="" style="width:500px; height:100px"></textarea>
         <button type="submit" id="sayIt">Say it!!!</button>
     </form>
 </div>
+<script>
+    var element = document.getElementById("messages");
+    element.scrollTop = element.scrollHeight;
+</script>
 
