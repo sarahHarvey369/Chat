@@ -18,7 +18,6 @@ namespace Chat.Controllers
 {
     public class HomeController : Controller
     {
-        // This is a comment to test jenkins
         private readonly ILogger<HomeController> _logger;
         private FirebaseClient firebaseClient;
 
@@ -46,14 +45,11 @@ namespace Chat.Controllers
         [Route("/home/sendajax")]
         public async Task<IActionResult> SendAjax()
         {
-            Console.WriteLine("!!!!!!! CALLED SendAjax() !!!!!!!");
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 string content = await reader.ReadToEndAsync();
                 JObject jsonContent = JObject.Parse(content);
-                Console.WriteLine($">>>> parsed json: {jsonContent}");
                 string msg = jsonContent["message"].ToString();
-                Console.WriteLine($">>>> it got: {msg}");
                 FirebaseObject<MessageData> result = await firebaseClient
                     .Child("Messages")
                     .PostAsync(new MessageData(msg));
@@ -82,8 +78,7 @@ namespace Chat.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {   
-            //Retrieve data from Firebase
+        {
             var database = await firebaseClient
               .Child("Messages")
               .OnceAsync<MessageData>();
