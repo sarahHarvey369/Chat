@@ -1,10 +1,20 @@
-﻿@model Chat.Models.MessageData
+@model Chat.Models.MessageData
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <style>
-    p:nth-child(odd) { background-color:lightgrey; }
+    *{ font-family: monospace}
+    p {
+        word-wrap: break-word;
+        border-width:1px;
+        border-style:solid;
+        margin-bottom:0px;
+        margin-top:0px;
+        min-height:22px;
+    }
+    p:nth-child(odd)  { background-color:lightgrey;}
+    p:nth-child(even) { background-color: aquamarine;}
 </style>
 
 <div class="text-center">
