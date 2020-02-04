@@ -22,10 +22,7 @@
 
     <form method="post" action="Index">
         <div id="messages" style="height:500px; overflow-y:scroll; display:block;">
-            @*@foreach (var message in ViewBag.Message)
-            {
-                <p style="word-wrap: break-word;border-width:1px;border-style:solid;margin-bottom:0px;margin-top:0px">@message</p>
-            }*@
+            
         </div>
     </form>
 
@@ -51,11 +48,9 @@
     }
     
     $(document).ready(function() {
-        
         function getMessagesAjax() {
             $.get("/home/getajax", function(response) {
                 $('#messages').empty();
-                console.log("doing it");
                 var msgsArr = response.messages;
                 for(var i = 0 ; i < msgsArr.length ; i++) {
                     $("#messages").append('<p style="word-wrap: break-word;border-width:1px;border-style:solid;' +
@@ -74,8 +69,6 @@
             var elem = $('#messages');
             var height = elem[0].scrollHeight;
             if (within10(elem[0].offsetHeight + elem[0].scrollTop, elem[0].scrollHeight)) {
-                // we have scrolled to the bottom
-                console.log("at bottom");
                 elem.scrollTop(height);
             }
         }, 1000);
