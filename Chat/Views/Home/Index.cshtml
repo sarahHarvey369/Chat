@@ -12,20 +12,65 @@
 
     <form method="post" action="Index">
         <div id="messages" style="height:500px; overflow-y:scroll; display:block;">
-            @foreach (var message in ViewBag.Message)
+            @*@foreach (var message in ViewBag.Message)
             {
                 <p style="word-wrap: break-word;border-width:1px;border-style:solid;margin-bottom:0px;margin-top:0px">@message</p>
-            }
+            }*@
         </div>
     </form>
 
-    <form method="post" action="/home/send">
-        Say something: <textarea type="text" name="message" value="" style="width:500px; height:100px"></textarea>
-        <button type="submit" id="sayIt">Say it!!!</button>
+    <form>
+        Say something: <textarea type="text" name="message" id="message" value="" style="width:500px; height:100px"></textarea>
+        <button type="button" id="sayIt" onclick="sendMessageAjax();">Say it!!!</button>
     </form>
 </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     var element = document.getElementById("messages");
     element.scrollTop = element.scrollHeight;
+    
+    var name = prompt('Please enter your name to login to the chat room:');
+    function sendMessageAjax() {
+        var msg = name + ": " + $("#message").val()
+        $.post({
+            url: "/home/sendajax",
+            contentType: 'application/json',
+            data: JSON.stringify({ "message": msg })
+        })
+    }
+    
+    $(document).ready(function() {
+        
+        function getMessagesAjax() {
+            $.get("/home/getajax", function(response) {
+                $('#messages').empty();
+                console.log("doing it");
+                var msgsArr = response.messages;
+                for(var i = 0 ; i < msgsArr.length ; i++) {
+                    $("#messages").append('<p style="word-wrap: break-word;border-width:1px;border-style:solid;' +
+                     'margin-bottom:0px;margin-top:0px">' + msgsArr[i] + '</p>');
+                }
+            });
+        }
+        
+        function within10(num, othernum) {
+            return (num >= (othernum - 10) && num <= (othernum + 10));
+        }
+        
+        getMessagesAjax();
+        setInterval(function() {
+            getMessagesAjax();
+            var elem = $('#messages');
+            var height = elem[0].scrollHeight;
+            if (within10(elem[0].offsetHeight + elem[0].scrollTop, elem[0].scrollHeight)) {
+                // we have scrolled to the bottom
+                console.log("at bottom");
+                elem.scrollTop(height);
+            }
+        }, 1000);
+        
+    });
+    
 </script>
 
