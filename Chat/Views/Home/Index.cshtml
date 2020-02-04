@@ -4,8 +4,20 @@
 }
 
 <style>
-    p:nth-child(odd) { background-color:lightgrey; }
+    *{ font-family: monospace}
+    p {
+        word-wrap: break-word;
+        border-width:1px;
+        border-style:solid;
+        margin-bottom:0px;
+        margin-top:0px;
+        min-height:22px;
+    }
+    p:nth-child(odd)  { background-color:lightgrey;}
+    p:nth-child(even) { background-color: aquamarine;}
 </style>
+
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome to our chat room!</h1>
@@ -14,7 +26,7 @@
         <div id="messages" style="height:500px; overflow-y:scroll; display:block;">
             @foreach (var message in ViewBag.Message)
             {
-                <p style="word-wrap: break-word;border-width:1px;border-style:solid;margin-bottom:0px;margin-top:0px">@message</p>
+                <p>@message</p>
             }
         </div>
     </form>
@@ -24,6 +36,7 @@
         <button type="submit" id="sayIt">Say it!!!</button>
     </form>
 </div>
+
 <script>
     var element = document.getElementById("messages");
     element.scrollTop = element.scrollHeight;
